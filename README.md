@@ -11,6 +11,8 @@
  - k-build.sh  커널 빌드 스크립트
  - k-tags.sh  커널 ctags, cscope 태그생성 스크립트
  - k-g3.sh qemu gdb 디버깅용 스크립트.
+ - k-dumpdtb.sh  qemu dump device tree 추출스크립트
+ - cortex-a57.dts dumpdtb로 나온 idevice tree 
 
 ## 필요한 패키지
  - Google에서 "aarch64 크로스 컴파일 환경 구성하기" 를 찿아 설치하자
