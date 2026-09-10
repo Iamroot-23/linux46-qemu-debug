@@ -2,10 +2,11 @@
 
 ## 커뮤니티: IAMROOT 23차
 - [www.iamroot.org][#iamroot] | IAMROOT 홈페이지
-- [jake.dothome.co.kr][#moonc] | 문c 블로그
+- [코드로 알아보는 ARM 리눅스 커널][#ebook]
 
 [#iamroot]: http://www.iamroot.org
 [#moonc]: http://jake.dothome.co.kr
+[#ebook]: https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000002982276
 
 ## 설명
  - k-build.sh  커널 빌드 스크립트
