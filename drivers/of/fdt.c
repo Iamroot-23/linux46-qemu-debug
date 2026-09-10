@@ -177,6 +177,8 @@ static void *unflatten_dt_alloc(void **mem, unsigned long size,
  * 
  * start = 0
  * size = unflatten_dt_node(blob, NULL, &start, NULL, NULL, 0, true);
+ *
+ *  unflatten_dt_node(blob, mem, &start, NULL, mynodes, 0, false);
  */
 __attribute__((optimize("O0")))
 static void * unflatten_dt_node(const void *blob,

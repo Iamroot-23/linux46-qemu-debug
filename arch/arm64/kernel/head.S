@@ -259,6 +259,9 @@ ENDPROC(preserve_boot_args)
  * Corrupts:	tmp1, tmp2
  * Returns:	tbl -> next level table page address
  */
+  /* IAMROOT23 20260903
+   * create_table_entry	idmap_pg_dir, __idmap_text_start, PGDIR_SHIFT, PTRS_PER_PGD
+ */
 	.macro	create_table_entry, tbl, virt, shift, ptrs, tmp1, tmp2
 	lsr	\tmp1, \virt, #\shift
 	and	\tmp1, \tmp1, #\ptrs - 1	// table index
@@ -274,6 +277,12 @@ ENDPROC(preserve_boot_args)
  *
  * Preserves:	tbl, next, virt
  * Corrupts:	tmp1, tmp2
+ */
+ /* IAMROOT23 20260903
+  * tbl		idmap_pg_dir
+  * virt	__idmap_text_start
+  * tmp1	__idmap_text_end
+  * create_table_entry	idmap_pg_dir, __idmap_text_start, PGDIR_SHIFT, PTRS_PER_PGD
  */
 	.macro	create_pgd_entry, tbl, virt, tmp1, tmp2
 	create_table_entry \tbl, \virt, PGDIR_SHIFT, PTRS_PER_PGD, \tmp1, \tmp2
@@ -291,6 +300,17 @@ ENDPROC(preserve_boot_args)
  *
  * Preserves:	tbl, flags
  * Corrupts:	phys, start, end, pstate
+ */
+	/* IAMROOT23 20260903
+	 * phys = phys >> 21;
+	 * start = start >> 21 & 0x1ff;
+	 * phys = phys << 21 | flags;
+	 * end = end >> 21 & 0x1ff;
+	 * do {
+	 *	tbl[start] = phys;
+	 * 	start++;
+	 * 	phys += SWAPPER_BLOCK_SIZE;
+	 * while(start < end);
  */
 	.macro	create_block_map, tbl, flags, phys, start, end
 	lsr	\phys, \phys, #SWAPPER_BLOCK_SHIFT
@@ -347,6 +367,11 @@ __create_page_tables:
 	adrp	x3, __idmap_text_start		// __pa(__idmap_text_start)
 
 #ifndef CONFIG_ARM64_VA_BITS_48
+/* IAMROOT23 20260902
+ * PGDIR_SHIFT 30	PAGE_SHIFT 12
+ * EXTRA_SHIFT	39
+ * EXTRA_PTRS	512
+ */
 #define EXTRA_SHIFT	(PGDIR_SHIFT + PAGE_SHIFT - 3)
 #define EXTRA_PTRS	(1 << (48 - EXTRA_SHIFT))
 
@@ -385,9 +410,21 @@ __create_page_tables:
 1:
 #endif
 
+	/* IAMROOT23 20260902
+	 * x0	idmap_pg_dir
+	 * x3 __idmap_text_start
+	 * x5, x6 : tmp
+	 */
 	create_pgd_entry x0, x3, x5, x6
 	mov	x5, x3				// __pa(__idmap_text_start)
 	adr_l	x6, __idmap_text_end		// __pa(__idmap_text_end)
+	/* IAMROOT23 20260902
+	 * x0	idmap_pg_dir+1page
+	 * x7	SWAPPER_MM_MMUFLAGS	0x711
+	 * x3	__idmap_text_start
+	 * x5	__pa(__idmap_text_start)
+	 * x6	__pa(__idmap_text_end)
+	 */
 	create_block_map x0, x7, x3, x5, x6
 
 	/*

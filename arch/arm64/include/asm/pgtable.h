@@ -481,7 +481,7 @@ static inline phys_addr_t pgd_page_paddr(pgd_t pgd)
 /* use ONLY for statically allocated translation tables */
 #define pud_offset_kimg(dir,addr)	((pud_t *)__phys_to_kimg(pud_offset_phys((dir), (addr))))
 
-#else
+#else /* CONFIG_PGTABLE_LEVELS > 3 */
 
 #define pgd_page_paddr(pgd)	({ BUILD_BUG(); 0;})
 

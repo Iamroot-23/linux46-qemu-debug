@@ -55,6 +55,12 @@
  * PMD_SHIFT determines the size a level 2 page table entry can map.
  */
 #if CONFIG_PGTABLE_LEVELS > 2
+/* IAMROOT23 20260903
+ *  PMD_SHIFT	21
+ *  PMD_SIZE	SZ_1M
+ *  PMD_MASK	0xf_ffff
+ *  PTRS_PER_PMD	512
+ */
 #define PMD_SHIFT		ARM64_HW_PGTABLE_LEVEL_SHIFT(2)
 #define PMD_SIZE		(_AC(1, UL) << PMD_SHIFT)
 #define PMD_MASK		(~(PMD_SIZE-1))
@@ -75,6 +81,13 @@
  * PGDIR_SHIFT determines the size a top-level page table entry can map
  * (depending on the configuration, this level can be 0, 1 or 2).
  */
+/* IAMROOT23 20260903
+ * CONFIG_PGTABLE_LEVELS	3
+ * PGDIR_SHIFT			30
+ * PGDIR_SIZE			SZ_1G	0x4000_0000
+ * PGDIR_MASK			0xffff_ffff_c0000_0000
+ * PTRS_PER_PGD			512
+ */
 #define PGDIR_SHIFT		ARM64_HW_PGTABLE_LEVEL_SHIFT(4 - CONFIG_PGTABLE_LEVELS)
 #define PGDIR_SIZE		(_AC(1, UL) << PGDIR_SHIFT)
 #define PGDIR_MASK		(~(PGDIR_SIZE-1))
@@ -82,6 +95,11 @@
 
 /*
  * Section address mask and size definitions.
+ */
+/* IAMROOT23 20260903
+ *  SECTION_SHIFT	21
+ *  SECTION_SIZE	SZ_1M
+ *  SECTION_MASK	0xf_ffff
  */
 #define SECTION_SHIFT		PMD_SHIFT
 #define SECTION_SIZE		(_AC(1, UL) << SECTION_SHIFT)
