@@ -112,3 +112,7 @@ all.config
 
 # Kdevelop4
 *.kdev4
+
+# iamroot 23
+gdb.txt
+kbuild_log.txt
