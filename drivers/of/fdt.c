@@ -149,6 +149,7 @@ int of_fdt_match(const void *blob, unsigned long node,
 	return score;
 }
 
+__attribute__((optimize("O0")))
 static void *unflatten_dt_alloc(void **mem, unsigned long size,
 				       unsigned long align)
 {
@@ -172,6 +173,12 @@ static void *unflatten_dt_alloc(void **mem, unsigned long size,
  * @dryrun: If true, do not allocate device nodes but still calculate needed
  * memory size
  */
+/* IAMROOT23 20260801
+ * 
+ * start = 0
+ * size = unflatten_dt_node(blob, NULL, &start, NULL, NULL, 0, true);
+ */
+__attribute__((optimize("O0")))
 static void * unflatten_dt_node(const void *blob,
 				void *mem,
 				int *poffset,
@@ -381,6 +388,10 @@ static void * unflatten_dt_node(const void *blob,
  * @mynodes: The device_node tree created by the call
  * @dt_alloc: An allocator that provides a virtual address to memory
  * for the resulting tree
+ */
+/* IAMROOT23 20260801
+ * 
+ * (initial_boot_params, &of_root, early_init_dt_alloc_memory_arch);
  */
 static void __unflatten_device_tree(const void *blob,
 			     struct device_node **mynodes,
@@ -888,12 +899,29 @@ int __init early_init_dt_scan_root(unsigned long node, const char *uname,
 	return 1;
 }
 
+/** reg = <0x00 0x40000000 0x01 0x00>;
+ *                                  ^
+ *                                  ㄴ endp
+ * s = 2, cellp = reg
+
+
+ * s = 2, cellp = 	<0x00 0x40000000 0x01 0x00>;
+		                           ^        ^
+					   ㄴ cellp
+ */
 u64 __init dt_mem_next_cell(int s, const __be32 **cellp)
 {
 	const __be32 *p = *cellp;
 
 	*cellp = p + s;
+	/* IAMROOT23 20260801
+	 * p = <0x00 0x40000000 0x01 0x00>;
+	 * s = 2
+	 */
 	return of_read_number(p, s);
+	/* IAMROOT23 20260801
+	 * 0x40000000
+	 */
 }
 
 /**
@@ -922,22 +950,47 @@ int __init early_init_dt_scan_memory(unsigned long node, const char *uname,
 		reg = of_get_flat_dt_prop(node, "reg", &l);
 	if (reg == NULL)
 		return 0;
-
+	/** reg = <0x00 0x40000000 0x01 0x00>;
+	 * l = 16
+	 */
 	endp = reg + (l / sizeof(__be32));
+
+	/** reg = <0x00 0x40000000 0x01 0x00>;
+	 *                                  ^
+	 *                                  ㄴ endp
+	 * l = 16
+	 */
 
 	pr_debug("memory scan node %s, reg size %d,\n", uname, l);
 
+	/* IAMROOT23 20260801
+	 * endp - reg  : 4
+	 * dt_root_addr_cells + dt_root_size_cells : 4
+	 */
 	while ((endp - reg) >= (dt_root_addr_cells + dt_root_size_cells)) {
 		u64 base, size;
 
 		base = dt_mem_next_cell(dt_root_addr_cells, &reg);
+		/**       <0x00 0x40000000 0x01 0x00>;
+		 *                         ^        ^
+		 *                         ㄴreg     ㄴ endp
+		 * base = 0x00_40000_0000;
+		 */
 		size = dt_mem_next_cell(dt_root_size_cells, &reg);
+		/**       <0x00 0x40000000 0x01 0x00>;
+		 *                                  ^
+		 *                                  ㄴ endp = reg
+		 * size = 0x01_00000_0000;
+		 */
 
 		if (size == 0)
 			continue;
 		pr_debug(" - %llx ,  %llx\n", (unsigned long long)base,
 		    (unsigned long long)size);
 
+		/* IAMROOT23 20260801
+		 *  0x00_40000_0000, SZ_4G
+		 */
 		early_init_dt_add_memory_arch(base, size);
 	}
 

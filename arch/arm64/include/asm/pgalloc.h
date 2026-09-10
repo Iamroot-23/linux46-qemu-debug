@@ -83,7 +83,9 @@ static inline void pgd_populate(struct mm_struct *mm, pgd_t *pgd, pud_t *pud)
 #else
 static inline void __pgd_populate(pgd_t *pgdp, phys_addr_t pud, pgdval_t prot)
 {
-	BUILD_BUG();
+	/* Only Debugging를 위해 주석 처리함.
+	 BUILD_BUG();
+	 */
 }
 #endif	/* CONFIG_PGTABLE_LEVELS > 3 */
 

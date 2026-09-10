@@ -115,7 +115,7 @@ static void split_pmd(pmd_t *pmd, pte_t *pte)
 	} while (pte++, i++, i < PTRS_PER_PTE);
 }
 
-static void alloc_init_pte(pmd_t *pmd, unsigned long addr,
+static void __attribute__((optimize("O0")))  alloc_init_pte(pmd_t *pmd, unsigned long addr,
 				  unsigned long end, unsigned long pfn,
 				  pgprot_t prot,
 				  phys_addr_t (*pgtable_alloc)(void))
@@ -176,6 +176,7 @@ static bool block_mappings_allowed(phys_addr_t (*pgtable_alloc)(void))
 }
 #endif
 
+__attribute__((optimize("O0")))
 static void alloc_init_pmd(pud_t *pud, unsigned long addr, unsigned long end,
 				  phys_addr_t phys, pgprot_t prot,
 				  phys_addr_t (*pgtable_alloc)(void))
@@ -234,7 +235,8 @@ static void alloc_init_pmd(pud_t *pud, unsigned long addr, unsigned long end,
 	pmd_clear_fixmap();
 }
 
-static inline bool use_1G_block(unsigned long addr, unsigned long next,
+__attribute__((optimize("O0")))
+static bool use_1G_block(unsigned long addr, unsigned long next,
 			unsigned long phys)
 {
 	if (PAGE_SHIFT != 12)
@@ -246,6 +248,7 @@ static inline bool use_1G_block(unsigned long addr, unsigned long next,
 	return true;
 }
 
+__attribute__((optimize("O0")))
 static void alloc_init_pud(pgd_t *pgd, unsigned long addr, unsigned long end,
 				  phys_addr_t phys, pgprot_t prot,
 				  phys_addr_t (*pgtable_alloc)(void))
@@ -302,6 +305,7 @@ static void alloc_init_pud(pgd_t *pgd, unsigned long addr, unsigned long end,
  * Create the page directory entries and any necessary page tables for the
  * mapping specified by 'md'.
  */
+__attribute__((optimize("O0")))
 static void init_pgd(pgd_t *pgd, phys_addr_t phys, unsigned long virt,
 				    phys_addr_t size, pgprot_t prot,
 				    phys_addr_t (*pgtable_alloc)(void))
@@ -337,6 +341,7 @@ static phys_addr_t late_pgtable_alloc(void)
 	return __pa(ptr);
 }
 
+__attribute__((optimize("O0")))
 static void __create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
 				 unsigned long virt, phys_addr_t size,
 				 pgprot_t prot,
@@ -350,6 +355,7 @@ static void __create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
  * without allocating new levels of table. Note that this permits the
  * creation of new section or page entries.
  */
+__attribute__((optimize("O0")))
 static void __init create_mapping_noalloc(phys_addr_t phys, unsigned long virt,
 				  phys_addr_t size, pgprot_t prot)
 {
@@ -362,7 +368,9 @@ static void __init create_mapping_noalloc(phys_addr_t phys, unsigned long virt,
 			     NULL);
 }
 
-void __init create_pgd_mapping(struct mm_struct *mm, phys_addr_t phys,
+void
+__attribute__((optimize("O0")))
+__init create_pgd_mapping(struct mm_struct *mm, phys_addr_t phys,
 			       unsigned long virt, phys_addr_t size,
 			       pgprot_t prot)
 {
@@ -370,6 +378,7 @@ void __init create_pgd_mapping(struct mm_struct *mm, phys_addr_t phys,
 			     late_pgtable_alloc);
 }
 
+__attribute__((optimize("O0")))
 static void create_mapping_late(phys_addr_t phys, unsigned long virt,
 				  phys_addr_t size, pgprot_t prot)
 {
@@ -383,6 +392,7 @@ static void create_mapping_late(phys_addr_t phys, unsigned long virt,
 			     late_pgtable_alloc);
 }
 
+__attribute__((optimize("O0")))
 static void __init __map_memblock(pgd_t *pgd, phys_addr_t start, phys_addr_t end)
 {
 	unsigned long kernel_start = __pa(_stext);
@@ -427,6 +437,7 @@ static void __init __map_memblock(pgd_t *pgd, phys_addr_t start, phys_addr_t end
 			     early_pgtable_alloc);
 }
 
+__attribute__((optimize("O0")))
 static void __init map_mem(pgd_t *pgd)
 {
 	struct memblock_region *reg;
@@ -445,7 +456,9 @@ static void __init map_mem(pgd_t *pgd)
 	}
 }
 
-void mark_rodata_ro(void)
+void
+__attribute__((optimize("O0")))
+mark_rodata_ro(void)
 {
 	unsigned long section_size;
 
@@ -461,7 +474,9 @@ void mark_rodata_ro(void)
 			    section_size, PAGE_KERNEL_RO);
 }
 
-void fixup_init(void)
+void
+__attribute__((optimize("O0")))
+fixup_init(void)
 {
 	/*
 	 * Unmap the __init region but leave the VM area in place. This
@@ -471,6 +486,7 @@ void fixup_init(void)
 	unmap_kernel_range((u64)__init_begin, (u64)(__init_end - __init_begin));
 }
 
+__attribute__((optimize("O0")))
 static void __init map_kernel_chunk(pgd_t *pgd, void *va_start, void *va_end,
 				    pgprot_t prot, struct vm_struct *vma)
 {
@@ -495,6 +511,7 @@ static void __init map_kernel_chunk(pgd_t *pgd, void *va_start, void *va_end,
 /*
  * Create fine-grained mappings for the kernel.
  */
+__attribute__((optimize("O0")))
 static void __init map_kernel(pgd_t *pgd)
 {
 	static struct vm_struct vmlinux_text, vmlinux_rodata, vmlinux_init, vmlinux_data;
@@ -535,10 +552,21 @@ static void __init map_kernel(pgd_t *pgd)
  * paging_init() sets up the page tables, initialises the zone memory
  * maps and sets up the zero page.
  */
-void __init paging_init(void)
+void
+__attribute__((optimize("O0")))
+__init paging_init(void)
 {
 	phys_addr_t pgd_phys = early_pgtable_alloc();
 	pgd_t *pgd = pgd_set_fixmap(pgd_phys);
+	u64 test[8] = { FIXADDR_TOP
+		, FIX_FDT_END
+		, FIX_FDT
+		, FIX_BTMAP_END
+		, FIX_BTMAP_BEGIN
+		, FIX_PTE
+		, FIX_PGD
+		, __end_of_fixed_addresses};
+
 
 	map_kernel(pgd);
 	map_mem(pgd);
@@ -571,6 +599,7 @@ void __init paging_init(void)
 /*
  * Check whether a kernel address is valid (derived from arch/x86/).
  */
+__attribute__((optimize("O0")))
 int kern_addr_valid(unsigned long addr)
 {
 	pgd_t *pgd;
@@ -607,11 +636,13 @@ int kern_addr_valid(unsigned long addr)
 }
 #ifdef CONFIG_SPARSEMEM_VMEMMAP
 #if !ARM64_SWAPPER_USES_SECTION_MAPS
+__attribute__((optimize("O0")))
 int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node)
 {
 	return vmemmap_populate_basepages(start, end, node);
 }
 #else	/* !ARM64_SWAPPER_USES_SECTION_MAPS */
+__attribute__((optimize("O0")))
 int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node)
 {
 	unsigned long addr = start;
@@ -652,6 +683,7 @@ void vmemmap_free(unsigned long start, unsigned long end)
 }
 #endif	/* CONFIG_SPARSEMEM_VMEMMAP */
 
+__attribute__((optimize("O0")))
 static inline pud_t * fixmap_pud(unsigned long addr)
 {
 	pgd_t *pgd = pgd_offset_k(addr);
@@ -661,6 +693,7 @@ static inline pud_t * fixmap_pud(unsigned long addr)
 	return pud_offset_kimg(pgd, addr);
 }
 
+__attribute__((optimize("O0")))
 static inline pmd_t * fixmap_pmd(unsigned long addr)
 {
 	pud_t *pud = fixmap_pud(addr);
@@ -670,11 +703,13 @@ static inline pmd_t * fixmap_pmd(unsigned long addr)
 	return pmd_offset_kimg(pud, addr);
 }
 
+__attribute__((optimize("O0")))
 static inline pte_t * fixmap_pte(unsigned long addr)
 {
 	return &bm_pte[pte_index(addr)];
 }
 
+__attribute__((optimize("O0")))
 void __init early_fixmap_init(void)
 {
 	pgd_t *pgd;
@@ -704,8 +739,10 @@ void __init early_fixmap_init(void)
 	 * The boot-ioremap range spans multiple pmds, for which
 	 * we are not prepared:
 	 */
+	/*
 	BUILD_BUG_ON((__fix_to_virt(FIX_BTMAP_BEGIN) >> PMD_SHIFT)
 		     != (__fix_to_virt(FIX_BTMAP_END) >> PMD_SHIFT));
+	*/
 
 	if ((pmd != fixmap_pmd(fix_to_virt(FIX_BTMAP_BEGIN)))
 	     || pmd != fixmap_pmd(fix_to_virt(FIX_BTMAP_END))) {
@@ -723,6 +760,7 @@ void __init early_fixmap_init(void)
 	}
 }
 
+__attribute__((optimize("O0")))
 void __set_fixmap(enum fixed_addresses idx,
 			       phys_addr_t phys, pgprot_t flags)
 {
@@ -741,6 +779,7 @@ void __set_fixmap(enum fixed_addresses idx,
 	}
 }
 
+__attribute__((optimize("O0")))
 void *__init __fixmap_remap_fdt(phys_addr_t dt_phys, int *size, pgprot_t prot)
 {
 	const u64 dt_virt_base = __fix_to_virt(FIX_FDT);
@@ -754,7 +793,7 @@ void *__init __fixmap_remap_fdt(phys_addr_t dt_phys, int *size, pgprot_t prot)
 	 * FDT header after mapping the first chunk, double check here if that
 	 * is indeed the case.
 	 */
-	BUILD_BUG_ON(MIN_FDT_ALIGN < 8);
+	/* BUILD_BUG_ON(MIN_FDT_ALIGN < 8); */
 	if (!dt_phys || dt_phys % MIN_FDT_ALIGN)
 		return NULL;
 
@@ -768,10 +807,11 @@ void *__init __fixmap_remap_fdt(phys_addr_t dt_phys, int *size, pgprot_t prot)
 	 * On 4k pages, we'll use section mappings for the FDT so we only
 	 * have to be in the same PUD.
 	 */
-	BUILD_BUG_ON(dt_virt_base % SZ_2M);
+	/* BUILD_BUG_ON(dt_virt_base % SZ_2M);
 
 	BUILD_BUG_ON(__fix_to_virt(FIX_FDT_END) >> SWAPPER_TABLE_SHIFT !=
 		     __fix_to_virt(FIX_BTMAP_BEGIN) >> SWAPPER_TABLE_SHIFT);
+	*/
 
 	offset = dt_phys % SWAPPER_BLOCK_SIZE;
 	dt_virt = (void *)dt_virt_base + offset;
@@ -794,6 +834,7 @@ void *__init __fixmap_remap_fdt(phys_addr_t dt_phys, int *size, pgprot_t prot)
 	return dt_virt;
 }
 
+__attribute__((optimize("O0")))
 void *__init fixmap_remap_fdt(phys_addr_t dt_phys)
 {
 	void *dt_virt;
@@ -818,6 +859,7 @@ int __init arch_ioremap_pmd_supported(void)
 	return 1;
 }
 
+__attribute__((optimize("O0")))
 int pud_set_huge(pud_t *pud, phys_addr_t phys, pgprot_t prot)
 {
 	BUG_ON(phys & ~PUD_MASK);
@@ -825,6 +867,7 @@ int pud_set_huge(pud_t *pud, phys_addr_t phys, pgprot_t prot)
 	return 1;
 }
 
+__attribute__((optimize("O0")))
 int pmd_set_huge(pmd_t *pmd, phys_addr_t phys, pgprot_t prot)
 {
 	BUG_ON(phys & ~PMD_MASK);
@@ -832,6 +875,7 @@ int pmd_set_huge(pmd_t *pmd, phys_addr_t phys, pgprot_t prot)
 	return 1;
 }
 
+__attribute__((optimize("O0")))
 int pud_clear_huge(pud_t *pud)
 {
 	if (!pud_sect(*pud))
@@ -840,6 +884,7 @@ int pud_clear_huge(pud_t *pud)
 	return 1;
 }
 
+__attribute__((optimize("O0")))
 int pmd_clear_huge(pmd_t *pmd)
 {
 	if (!pmd_sect(*pmd))

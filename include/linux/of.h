@@ -198,9 +198,33 @@ extern struct device_node *of_find_all_nodes(struct device_node *prev);
 /* Helper to read a big number; size is in cells (not bytes) */
 static inline u64 of_read_number(const __be32 *cell, int size)
 {
+	/* IAMROOT23 20260801
+	 * cell = <0x00 0x40000000 0x01 0x00>;
+	 * s = 2
+	 */
+	/* IAMROOT23 20260801
+	 * cell = 0x01 0x00>;
+	 * s = 2
+	 */
 	u64 r = 0;
-	while (size--)
+	while (size--) {
 		r = (r << 32) | be32_to_cpu(*(cell++));
+		/* IAMROOT23 20260801
+		 *	size	|	r	|	cell	|			| r2
+		 * 1	2	|	0 << 32 |	<0x00	| (0 << 32 | 0x00) =	| 0
+		 * 2	1	|	0 << 32 |	0x40000000 |	r  | 0x40000000	| r2 0x40000000 
+		 */
+
+
+		/* IAMROOT23 20260801
+		 *	size	|	r	|	cell	|			| r2
+		 * 1	2	|	0 << 32 |	0x01	| (0 << 32 | 0x01) 	| 1
+		 * 2	1	|	1 << 32 |	0x00	|  0x1_0000_0000 | 0x0	| r2 0x1_0000_0000
+		 */
+	}
+
+	/* r = 0x40000000 */
+	/* r = 0x1_0000_0000 */
 	return r;
 }
 

@@ -47,6 +47,9 @@ enum fixed_addresses {
 	 */
 #define FIX_FDT_SIZE		(MAX_FDT_SIZE + SZ_2M)
 	FIX_FDT_END,
+	/* IAMROOT23 20260725
+	 * SZ_4M / SZ_4K = SZ_1K
+	 */
 	FIX_FDT = FIX_FDT_END + FIX_FDT_SIZE / PAGE_SIZE - 1,
 
 	FIX_EARLYCON_MEM_BASE,
