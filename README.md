@@ -2,11 +2,13 @@
 
 ## 커뮤니티: IAMROOT 23차
 - [www.iamroot.org][#iamroot] | IAMROOT 홈페이지
+- [리눅스 커널 심층분석 개정판 3 판][#book_lkd]
 - [코드로 알아보는 ARM 리눅스 커널][#ebook]
 
 [#iamroot]: http://www.iamroot.org
 [#moonc]: http://jake.dothome.co.kr
 [#ebook]: https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000002982276
+[#book_lkd]: https://product.kyobobook.co.kr/detail/S000000935348
 
 ## 설명
  - k-build.sh  커널 빌드 스크립트
