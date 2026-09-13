@@ -116,3 +116,4 @@ all.config
 # iamroot 23
 gdb.txt
 kbuild_log.txt
+!.config
