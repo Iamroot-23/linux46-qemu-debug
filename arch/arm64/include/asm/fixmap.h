@@ -33,6 +33,24 @@
  * physical memory with fixmap indices.
  *
  */
+
+/* IAMROOT23 20260919
+ enum fixed_addresses {
+	FIX_HOLE,
+	 FIX_FDT_END,
+	 FIX_FDT = 1024,
+	 FIX_EARLYCON_MEM_BASE,
+	 FIX_TEXT_POKE0,
+	 __end_of_permanent_fixed_addresses,
+	 FIX_BTMAP_END = 1027,
+	 FIX_BTMAP_BEGIN = 1474,
+	 FIX_PTE,			// 1475
+	 FIX_PMD,			// 1476
+	 FIX_PUD,			// 1477
+	 FIX_PGD,			// 1478
+	__end_of_fixed_addresses	// 1479
+	}
+ */
 enum fixed_addresses {
 	FIX_HOLE,
 
@@ -79,6 +97,10 @@ enum fixed_addresses {
 	__end_of_fixed_addresses
 };
 
+/* IAMROOT23 20260919
+ * FIXADDR_START	0xffff_ffbf_fe7f_d000
+ * FIXADDR_SIZE		6057984(1479 << PAGE_SHIFT) 약 5.8M
+ */
 #define FIXADDR_SIZE	(__end_of_permanent_fixed_addresses << PAGE_SHIFT)
 #define FIXADDR_START	(FIXADDR_TOP - FIXADDR_SIZE)
 

@@ -546,6 +546,9 @@ void __init sparse_init(void)
 	 * powerpc need to call sparse_init_one_section right after each
 	 * sparse_early_mem_map_alloc, so allocate usemap_map at first.
 	 */
+	/* IAMROOT23 20260919
+	 *  size = 1 << (18 + 3) = 2M
+	 *  */
 	size = sizeof(unsigned long *) * NR_MEM_SECTIONS;
 	usemap_map = memblock_virt_alloc(size, 0);
 	if (!usemap_map)

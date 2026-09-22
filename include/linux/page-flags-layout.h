@@ -27,6 +27,9 @@
 #include <asm/sparsemem.h>
 
 /* SECTION_SHIFT	#bits space required to store a section # */
+/* IAMROOT23 20260919
+ *  SECTIONS_SHIFT	18	(48-30)
+ */
 #define SECTIONS_SHIFT	(MAX_PHYSMEM_BITS - SECTION_SIZE_BITS)
 
 #endif /* CONFIG_SPARSEMEM */

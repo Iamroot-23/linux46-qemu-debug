@@ -12,6 +12,12 @@
  */
 typedef struct { pgd_t pgd; } pud_t;
 
+/* IAMROOT23 20260919
+ * PUD_SHIFT	30
+ * PTRS_PER_PUD	1
+ * PUD_SIZE	SZ_1G
+ * PUD_MASK	0xffff_ffff_c000_0000
+ */
 #define PUD_SHIFT	PGDIR_SHIFT
 #define PTRS_PER_PUD	1
 #define PUD_SIZE  	(1UL << PUD_SHIFT)

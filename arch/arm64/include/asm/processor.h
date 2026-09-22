@@ -47,6 +47,10 @@
 #define STACK_TOP		STACK_TOP_MAX
 #endif /* CONFIG_COMPAT */
 
+/* IAMROOT23 20260919
+ * arm64_dma_phys_limit		0x1_0000_0000
+ * ARCH_LOW_ADDRESS_LIMIT	0xffff_ffff
+ */
 extern phys_addr_t arm64_dma_phys_limit;
 #define ARCH_LOW_ADDRESS_LIMIT	(arm64_dma_phys_limit - 1)
 #endif /* __KERNEL__ */

@@ -9,6 +9,12 @@
  *
  * Undefined if no set bit exists, so code should check against 0 first.
  */
+/* IAMROOT23 20260919
+ *  정수에서 가장 마지막(가장 높은 비트, MSB)으로 1이 설정된 비트의 위치
+ *  x = 0x0000000000000001 (이진수: ...00000001) ──► 0 반환
+ *  x = 0x0000000000000080 (이진수: ...10000000) ──► 7 반환
+ *  x = 0x8000000000000000 (최상위 비트 1) ──► 63 반환
+ */
 static __always_inline unsigned long __fls(unsigned long word)
 {
 	int num = BITS_PER_LONG - 1;

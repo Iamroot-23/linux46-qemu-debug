@@ -1014,9 +1014,16 @@ static inline unsigned long early_pfn_to_nid(unsigned long pfn)
  * PA_SECTION_SHIFT		physical address to/from section number
  * PFN_SECTION_SHIFT		pfn to/from section number
  */
+/* IAMROOT23 20260919
+ * PA_SECTION_SHIFT	30
+ * PFN_SECTION_SHIFT	18
+ */
 #define PA_SECTION_SHIFT	(SECTION_SIZE_BITS)
 #define PFN_SECTION_SHIFT	(SECTION_SIZE_BITS - PAGE_SHIFT)
 
+/* IAMROOT23 20260919
+ * NR_MEM_SECTIONS	256k(0x40000)	1 << 18
+ */
 #define NR_MEM_SECTIONS		(1UL << SECTIONS_SHIFT)
 
 #define PAGES_PER_SECTION       (1UL << PFN_SECTION_SHIFT)
