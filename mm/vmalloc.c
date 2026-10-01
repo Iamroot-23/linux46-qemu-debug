@@ -417,7 +417,8 @@ nocache:
 		while (n) {
 			struct vmap_area *tmp;
 			tmp = rb_entry(n, struct vmap_area, rb_node);
-			if (tmp->va_end >= addr) {
+			/*ori if (tmp->va_end >= addr) { */
+			if (addr <= tmp->va_end) {
 				first = tmp;
 				if (tmp->va_start <= addr)
 					break;
@@ -431,7 +432,8 @@ nocache:
 	}
 
 	/* from the starting point, walk areas until a suitable hole is found */
-	while (addr + size > first->va_start && addr + size <= vend) {
+	/*ori while (addr + size > first->va_start && addr + size <= vend) { */
+	while (first->va_start < addr + size && addr + size <= vend) {
 		if (addr + cached_hole_size < first->va_start)
 			cached_hole_size = first->va_start - addr;
 		addr = ALIGN(first->va_end, align);
