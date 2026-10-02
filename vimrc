@@ -181,9 +181,9 @@ nmap <F12> <ESC>i__attribute__((optimize("O0")))<CR><ESC>
 vmap <F3> :s/[ \t]\+$//
 
 
-call plug#begin('~/.vim/plugged')
-
-" Fcitx5 / IBus ESC 자동 영문 전환 플러그인
-Plug 'rlue/vim-barbaric'
-
-call plug#end()
+" call plug#begin('~/.vim/plugged')
+" 
+" " Fcitx5 / IBus ESC 자동 영문 전환 플러그인
+" Plug 'rlue/vim-barbaric'
+" 
+" call plug#end()

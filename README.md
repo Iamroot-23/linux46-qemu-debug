@@ -26,6 +26,8 @@
  - aarch64-linux-gnu-gdb
  - aarch64-linux-gnu-glibc
  - qemu-system-aarch64
+ - bc
+ - cscope ctags
 
 ## 실행 순서
  - k-build.sh 커널 소스를 처음 받거나 수정후에 실행해준다.
