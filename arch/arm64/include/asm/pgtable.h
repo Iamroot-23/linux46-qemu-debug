@@ -571,6 +571,12 @@ static inline pte_t ptep_get_and_clear(struct mm_struct *mm,
 	pteval_t old_pteval;
 	unsigned int tmp;
 
+	/* IAMROOT23 20261006
+	 *	prfm	pstl1strm, pte_val(*ptep))
+	 *1:	ldxr	old_pteval, pte_val(*ptep))
+	 *	stxr	w1, xzr, pte_val(*ptep))
+	 *	cbnz	w1, 1b
+	 */
 	asm volatile("//	ptep_get_and_clear\n"
 	"	prfm	pstl1strm, %2\n"
 	"1:	ldxr	%0, %2\n"

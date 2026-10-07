@@ -478,6 +478,9 @@ overflow:
 	return ERR_PTR(-EBUSY);
 }
 
+/* IAMROOT23 20261006
+ * va를 vmap_area_root, vmap_area_list에서 제거후 메모리해제.
+ */
 static void __free_vmap_area(struct vmap_area *va)
 {
 	BUG_ON(RB_EMPTY_NODE(&va->rb_node));
