@@ -72,18 +72,18 @@ enum fixed_addresses {
 
 	FIX_EARLYCON_MEM_BASE,
 	FIX_TEXT_POKE0,
-	__end_of_permanent_fixed_addresses,
+	__end_of_permanent_fixed_addresses,			/* 1027 */
 
 	/*
 	 * Temporary boot-time mappings, used by early_ioremap(),
 	 * before ioremap() is functional.
 	 */
-#define NR_FIX_BTMAPS		(SZ_256K / PAGE_SIZE)
+#define NR_FIX_BTMAPS		(SZ_256K / PAGE_SIZE)		/* 64 */
 #define FIX_BTMAPS_SLOTS	7
 #define TOTAL_FIX_BTMAPS	(NR_FIX_BTMAPS * FIX_BTMAPS_SLOTS)
 
-	FIX_BTMAP_END = __end_of_permanent_fixed_addresses,
-	FIX_BTMAP_BEGIN = FIX_BTMAP_END + TOTAL_FIX_BTMAPS - 1,
+	FIX_BTMAP_END = __end_of_permanent_fixed_addresses,	/* 1027 */
+	FIX_BTMAP_BEGIN = FIX_BTMAP_END + TOTAL_FIX_BTMAPS - 1,	/* 1474 */
 
 	/*
 	 * Used for kernel page table creation, so unmapped memory may be used

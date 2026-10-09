@@ -69,11 +69,14 @@ void __init early_ioremap_setup(void)
 {
 	int i;
 
-	for (i = 0; i < FIX_BTMAPS_SLOTS; i++)
+	for (i = 0; i < FIX_BTMAPS_SLOTS; i++)	/* 7 */
 		if (WARN_ON(prev_map[i]))
 			break;
 
 	for (i = 0; i < FIX_BTMAPS_SLOTS; i++)
+		/* IAMROOT23 20261009
+		 * 1474 - 64 * i	0xffff_ffbf_fe63_e000
+		 */
 		slot_virt[i] = __fix_to_virt(FIX_BTMAP_BEGIN - NR_FIX_BTMAPS*i);
 }
 

@@ -771,6 +771,11 @@ struct vmap_block_queue {
 	struct list_head free;
 };
 
+/* IAMROOT23 20261005
+ * free -> 한번도 사용하지 않은 영역
+ * dirty -> 사용 후 더 이상 사용하지 않은 영역
+ * VMAP_BBMAP_BITS - free - dirty -> 사용중인 영역
+ */
 struct vmap_block {
 	spinlock_t lock;
 	struct vmap_area *va;
@@ -906,6 +911,9 @@ static void purge_fragmented_blocks(int cpu)
 	rcu_read_lock();
 	list_for_each_entry_rcu(vb, &vbq->free, free_list) {
 
+		/* IAMROOT23 20261005
+		 * 사용중인 영역이 있으면 pass
+		 */
 		if (!(vb->free + vb->dirty == VMAP_BBMAP_BITS && vb->dirty != VMAP_BBMAP_BITS))
 			continue;
 

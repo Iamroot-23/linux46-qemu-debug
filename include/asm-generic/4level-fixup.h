@@ -16,6 +16,16 @@
 
 #define pud_t				pgd_t
 
+/* IAMROOT23 20261003
+ * 
+ * pmd_t * pmd_alloc(mm, pud, address) {
+ * 	if(pgd_none(*pud)) {
+ * 		if(__pmd_alloc(mm, pud, address))
+ * 			return NULL;
+ * 	}
+ * 	return pmd_offset(pud, address);
+ * }
+ */
 #define pmd_alloc(mm, pud, address) \
 	((unlikely(pgd_none(*(pud))) && __pmd_alloc(mm, pud, address))? \
  		NULL: pmd_offset(pud, address))
