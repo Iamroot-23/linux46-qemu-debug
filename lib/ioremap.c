@@ -25,6 +25,7 @@ static int __init set_nohugeiomap(char *str)
 }
 early_param("nohugeiomap", set_nohugeiomap);
 
+__attribute__((optimize("O0")))
 void __init ioremap_huge_init(void)
 {
 	if (!ioremap_huge_disabled) {
@@ -50,6 +51,7 @@ static inline int ioremap_pud_enabled(void) { return 0; }
 static inline int ioremap_pmd_enabled(void) { return 0; }
 #endif	/* CONFIG_HAVE_ARCH_HUGE_VMAP */
 
+__attribute__((optimize("O0")))
 static int ioremap_pte_range(pmd_t *pmd, unsigned long addr,
 		unsigned long end, phys_addr_t phys_addr, pgprot_t prot)
 {
@@ -68,6 +70,7 @@ static int ioremap_pte_range(pmd_t *pmd, unsigned long addr,
 	return 0;
 }
 
+__attribute__((optimize("O0")))
 static inline int ioremap_pmd_range(pud_t *pud, unsigned long addr,
 		unsigned long end, phys_addr_t phys_addr, pgprot_t prot)
 {
@@ -94,6 +97,7 @@ static inline int ioremap_pmd_range(pud_t *pud, unsigned long addr,
 	return 0;
 }
 
+__attribute__((optimize("O0")))
 static inline int ioremap_pud_range(pgd_t *pgd, unsigned long addr,
 		unsigned long end, phys_addr_t phys_addr, pgprot_t prot)
 {
@@ -120,6 +124,7 @@ static inline int ioremap_pud_range(pgd_t *pgd, unsigned long addr,
 	return 0;
 }
 
+__attribute__((optimize("O0")))
 int ioremap_page_range(unsigned long addr,
 		       unsigned long end, phys_addr_t phys_addr, pgprot_t prot)
 {

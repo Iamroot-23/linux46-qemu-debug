@@ -64,6 +64,7 @@ static void __iomem *prev_map[FIX_BTMAPS_SLOTS] __initdata;
 static unsigned long prev_size[FIX_BTMAPS_SLOTS] __initdata;
 static unsigned long slot_virt[FIX_BTMAPS_SLOTS] __initdata;
 
+__attribute__((optimize("O0")))
 void __init early_ioremap_setup(void)
 {
 	int i;
@@ -94,6 +95,7 @@ static int __init check_early_ioremap_leak(void)
 }
 late_initcall(check_early_ioremap_leak);
 
+__attribute__((optimize("O0")))
 static void __init __iomem *
 __early_ioremap(resource_size_t phys_addr, unsigned long size, pgprot_t prot)
 {
