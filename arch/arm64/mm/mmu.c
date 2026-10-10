@@ -558,14 +558,12 @@ __init paging_init(void)
 {
 	phys_addr_t pgd_phys = early_pgtable_alloc();
 	pgd_t *pgd = pgd_set_fixmap(pgd_phys);
-	u64 test[8] = { FIXADDR_TOP
+	u64 test[10] = { FIXADDR_TOP
 		, FIX_FDT_END
 		, FIX_FDT
-		, FIX_BTMAP_END
-		, FIX_BTMAP_BEGIN
-		, FIX_PTE
-		, FIX_PGD
-		, __end_of_fixed_addresses};
+		, VMEMMAP_START
+		, vmemmap
+		, 0, };
 
 
 	map_kernel(pgd);

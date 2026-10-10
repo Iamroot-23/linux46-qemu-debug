@@ -1026,6 +1026,10 @@ static inline unsigned long early_pfn_to_nid(unsigned long pfn)
  */
 #define NR_MEM_SECTIONS		(1UL << SECTIONS_SHIFT)
 
+/* IAMROOT23 20261010
+ * PAGES_PER_SECTION	섹션당 페이지 개수. 섹션이 1G, 4k page이면 2^(30-12)
+ * PAGE_SECTION_MASK	0xffff_ffff_fffc_0000
+ */
 #define PAGES_PER_SECTION       (1UL << PFN_SECTION_SHIFT)
 #define PAGE_SECTION_MASK	(~(PAGES_PER_SECTION-1))
 

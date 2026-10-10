@@ -37,6 +37,14 @@
 /* IAMROOT23 20260919
  * VMALLOC_START	0xffff_ff80_0800_0000
  * VMALLOC_END		
+ * VMEMMAP_START	0xffff_ffbd_c000_0000
+ * vmemmap		0xffff_ffbd_bf00_0000
+ * memstart_addr	0x4000_0000 devicetree의 memory reg의 첫번째인자값
+ * 물리메모리가 memstart_addr에서 시작되기때문에 vmemmap[0]은 나올수가 없고
+ * 실제로는 vmemmap[memstart_addr >> PAGE_SHIFT]가 시작이기때문에
+ * 결국 vmemmap시작주소는 VMEMMAP_START가 맞음
+ * vmemmap[memstart_addr >> PAGE_SHIFT] = vmemmap + memstart_addr >> PAGE_SHIFT
+ *	-> VMEMMAP_START가 된다.
  */
 #define VMALLOC_START		(MODULES_END)
 #define VMALLOC_END		(PAGE_OFFSET - PUD_SIZE - VMEMMAP_SIZE - SZ_64K)
