@@ -75,7 +75,7 @@ void __init early_ioremap_setup(void)
 
 	for (i = 0; i < FIX_BTMAPS_SLOTS; i++)
 		/* IAMROOT23 20261009
-		 * 1474 - 64 * i	0xffff_ffbf_fe63_e000
+		 * 1474 - 64 * i	0xffff_ffbf_fe63_e000 - 64 * i
 		 */
 		slot_virt[i] = __fix_to_virt(FIX_BTMAP_BEGIN - NR_FIX_BTMAPS*i);
 }
@@ -213,6 +213,9 @@ void __init early_iounmap(void __iomem *addr, unsigned long size)
 void __init __iomem *
 early_ioremap(resource_size_t phys_addr, unsigned long size)
 {
+	/* IAMROOT23 20261010
+	 * FIXMAP_PAGE_IO	PROT_DEVICE_nGnRE
+	 */
 	return __early_ioremap(phys_addr, size, FIXMAP_PAGE_IO);
 }
 
@@ -220,6 +223,9 @@ early_ioremap(resource_size_t phys_addr, unsigned long size)
 void __init *
 early_memremap(resource_size_t phys_addr, unsigned long size)
 {
+	/* IAMROOT23 20261010
+	 * FIXMAP_PAGE_NORMAL PAGE_KERNEL(Normal 메모리)
+	 */
 	return (__force void *)__early_ioremap(phys_addr, size,
 					       FIXMAP_PAGE_NORMAL);
 }

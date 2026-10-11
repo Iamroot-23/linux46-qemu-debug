@@ -44,6 +44,9 @@ static void __iomem *__ioremap_caller(phys_addr_t phys_addr, size_t size,
 	 * offset.
 	 */
 	phys_addr &= PAGE_MASK;
+	/* IAMROOT23 20261010
+	 * PAGE_ALIGN(size) = (size + PAGE_SIZE - 1) & PAGE_MASK
+	 */
 	size = PAGE_ALIGN(size + offset);
 
 	/*
