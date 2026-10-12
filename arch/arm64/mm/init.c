@@ -54,6 +54,9 @@
  * executes, which assigns it its actual value. So use a default value
  * that cannot be mistaken for a real physical address.
  */
+/* IAMROOT23 20261012
+ * memstart_addr 물리메모리의 시작주소: 예) 0x4000_0000
+ */
 s64 memstart_addr __read_mostly = -1;
 phys_addr_t arm64_dma_phys_limit __read_mostly;
 
