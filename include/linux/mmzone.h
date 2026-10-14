@@ -1022,7 +1022,8 @@ static inline unsigned long early_pfn_to_nid(unsigned long pfn)
 #define PFN_SECTION_SHIFT	(SECTION_SIZE_BITS - PAGE_SHIFT)
 
 /* IAMROOT23 20260919
- * NR_MEM_SECTIONS	256k(0x40000)	1 << 18
+ * NR_MEM_SECTIONS	256k(0x4_0000)	1 << 18
+ *	48비트 물리주소를 채우려면 1G섹션이 총 256k개 필요함.
  */
 #define NR_MEM_SECTIONS		(1UL << SECTIONS_SHIFT)
 

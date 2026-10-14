@@ -48,6 +48,10 @@
  * TASK_UNMAPPED_BASE - the lower boundary of the mmap VM area.
  */
 /* IAMROOT23 20260817
+ * VA_BITS	39
+ * VA_START	0xffff_ff80_0000_0000
+ * PAGE_OFFSET	0xffff_ffc0_0000_0000
+ *
  * KIMAGE_VADDR 0xffff_ff80_0800_0000
  * MODULE_END   0xffff_ff80_0800_0000
  * MODULES_VADDR 0xffff_ff80_0000_0000  KASAN_SHADOW disable일경우.

@@ -32,13 +32,17 @@
  * VMALLOC_END: extends to the available space below vmmemmap, PCI I/O space,
  *	fixed mappings and modules
  */
+/* IAMROOT23 20261014
+ * VMEMMAP_SIZE		SZ_8G	0x2_0000_0000
+ *	sizeof(page)	64
+ */
 #define VMEMMAP_SIZE		ALIGN((1UL << (VA_BITS - PAGE_SHIFT)) * sizeof(struct page), PUD_SIZE)
 
 /* IAMROOT23 20260919
  * VMALLOC_START	0xffff_ff80_0800_0000
- * VMALLOC_END		
+ * VMALLOC_END		0xffff_ffbd_bfff_0000
  * VMEMMAP_START	0xffff_ffbd_c000_0000
- * vmemmap
+ * vmemmap		((page *)VMEMMAP_START)[-memstart_pfn]
  *	page * p = VMEMMAP_START;
  *	int memstart_pfn = memstart_addr >> PAGE_SHIFT;
  * 	page * vmemap = &p[-memstart_pfn];

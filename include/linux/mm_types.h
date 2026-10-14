@@ -41,6 +41,9 @@ struct mem_cgroup;
  * allows the use of atomic double word operations on the flags/mapping
  * and lru list pointers also.
  */
+/* IAMROOT23 20261014
+ * sizeof(struct page)	64
+ */
 struct page {
 	/* First double word block */
 	unsigned long flags;		/* Atomic flags, some possibly
