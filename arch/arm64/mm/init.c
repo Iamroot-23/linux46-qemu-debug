@@ -172,6 +172,10 @@ early_param("mem", early_mem);
 __attribute__((optimize("O0")))
 void __init arm64_memblock_init(void)
 {
+	/* IAMROOT23 20261015
+	 * 0x40_0000_0000	256G
+	 * 0x1_0000_0000_0000_0000 - 0xffff_ffc0_0000_0000
+	 */
 	const s64 linear_region_size = -(s64)PAGE_OFFSET;
 
 	/*
@@ -194,6 +198,11 @@ void __init arm64_memblock_init(void)
 	 * Remove the memory that we will not be able to cover with the
 	 * linear mapping. Take care not to clip the kernel which may be
 	 * high in memory.
+	 */
+	/* IAMROOT23 20261015
+	 * 리니어 매핑으로 커버할 수 없는 메모리를 제거한다. 커널 이미지가 메모
+	 * 리 상위에 있을 수 있으니 그것이 잘려나가지 않도록 주의한다.
+	 * 256G 위에 있는 블럭을 제거.
 	 */
 	memblock_remove(max_t(u64, memstart_addr + linear_region_size, __pa(_end)),
 			ULLONG_MAX);
