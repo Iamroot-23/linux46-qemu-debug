@@ -169,6 +169,7 @@ static int __init early_mem(char *p)
 }
 early_param("mem", early_mem);
 
+__attribute__((optimize("O0")))
 void __init arm64_memblock_init(void)
 {
 	const s64 linear_region_size = -(s64)PAGE_OFFSET;
@@ -178,7 +179,10 @@ void __init arm64_memblock_init(void)
 	 * virtual address space. This way, we can distinguish a linear address
 	 * from a kernel/module/vmalloc address by testing a single bit.
 	 */
+	/* IAMROOT23 20261015
+	 * 최적화 빌드에러 제거.
 	BUILD_BUG_ON(linear_region_size != BIT(VA_BITS - 1));
+	 */
 
 	/*
 	 * Select a suitable value for the base of physical memory.

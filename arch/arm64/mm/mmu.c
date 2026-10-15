@@ -563,6 +563,8 @@ __init paging_init(void)
 		, FIX_FDT
 		, VMEMMAP_START
 		, vmemmap
+		, PUD_SIZE
+		, VMEMMAP_SIZE
 		, 0, };
 
 
