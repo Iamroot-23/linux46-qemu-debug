@@ -264,6 +264,7 @@ void __init arm64_memblock_init(void)
 	memblock_dump_all();
 }
 
+__attribute__((optimize("O0")))
 void __init bootmem_init(void)
 {
 	unsigned long min, max;
