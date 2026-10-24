@@ -177,6 +177,9 @@ void __init memory_present(int nid, unsigned long start, unsigned long end)
 	start &= PAGE_SECTION_MASK;
 	mminit_validate_memmodel_limits(&start, &end);
 	for (pfn = start; pfn < end; pfn += PAGES_PER_SECTION) {
+		/* IAMROOT23 20261024
+		 * pgd_index(pfn << PAGE_SHIFT) 와 비슷함.
+		 */
 		unsigned long section = pfn_to_section_nr(pfn);
 		struct mem_section *ms;
 

@@ -1028,7 +1028,7 @@ static inline unsigned long early_pfn_to_nid(unsigned long pfn)
 #define NR_MEM_SECTIONS		(1UL << SECTIONS_SHIFT)
 
 /* IAMROOT23 20261010
- * PAGES_PER_SECTION	섹션당 페이지 개수. 섹션이 1G, 4k page이면 2^(30-12)
+ * PAGES_PER_SECTION	256K 섹션당 페이지 개수. 섹션이 1G,4k page이면 2^(30-12)
  * PAGE_SECTION_MASK	0xffff_ffff_fffc_0000
  */
 #define PAGES_PER_SECTION       (1UL << PFN_SECTION_SHIFT)
@@ -1081,11 +1081,19 @@ struct mem_section {
 };
 
 #ifdef CONFIG_SPARSEMEM_EXTREME
+/* IAMROOT23 20261024
+ * SECTIONS_PER_ROOT		256
+ */
 #define SECTIONS_PER_ROOT       (PAGE_SIZE / sizeof (struct mem_section))
 #else
 #define SECTIONS_PER_ROOT	1
 #endif
 
+/* IAMROOT23 20261024
+ * SECTION_NR_TO_ROOT		sec/256
+ * NR_SECTION_ROOTS		1024
+ * SECTION_ROOT_MASK		0xff
+ */
 #define SECTION_NR_TO_ROOT(sec)	((sec) / SECTIONS_PER_ROOT)
 #define NR_SECTION_ROOTS	DIV_ROUND_UP(NR_MEM_SECTIONS, SECTIONS_PER_ROOT)
 #define SECTION_ROOT_MASK	(SECTIONS_PER_ROOT - 1)
