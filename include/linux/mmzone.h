@@ -1096,6 +1096,7 @@ extern struct mem_section *mem_section[NR_SECTION_ROOTS];
 extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
 #endif
 
+__attribute__((optimize("O0")))
 static inline struct mem_section *__nr_to_section(unsigned long nr)
 {
 	if (!mem_section[SECTION_NR_TO_ROOT(nr)])

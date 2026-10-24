@@ -214,6 +214,7 @@ unsigned long __init node_memmap_size_bytes(int nid, unsigned long start_pfn,
  * the identity pfn - section_mem_map will return the actual
  * physical page frame number.
  */
+__attribute__((optimize("O0")))
 static unsigned long sparse_encode_mem_map(struct page *mem_map, unsigned long pnum)
 {
 	return (unsigned long)(mem_map - (section_nr_to_pfn(pnum)));
@@ -222,6 +223,7 @@ static unsigned long sparse_encode_mem_map(struct page *mem_map, unsigned long p
 /*
  * Decode mem_map from the coded memmap
  */
+__attribute__((optimize("O0")))
 struct page *sparse_decode_mem_map(unsigned long coded_mem_map, unsigned long pnum)
 {
 	/* mask off the extra low bits of information */
@@ -229,6 +231,7 @@ struct page *sparse_decode_mem_map(unsigned long coded_mem_map, unsigned long pn
 	return ((struct page *)coded_mem_map) + section_nr_to_pfn(pnum);
 }
 
+__attribute__((optimize("O0")))
 static int __meminit sparse_init_one_section(struct mem_section *ms,
 		unsigned long pnum, struct page *mem_map,
 		unsigned long *pageblock_bitmap)
@@ -244,6 +247,7 @@ static int __meminit sparse_init_one_section(struct mem_section *ms,
 	return 1;
 }
 
+__attribute__((optimize("O0")))
 unsigned long usemap_size(void)
 {
 	unsigned long size_bytes;
@@ -260,6 +264,7 @@ static unsigned long *__kmalloc_section_usemap(void)
 #endif /* CONFIG_MEMORY_HOTPLUG */
 
 #ifdef CONFIG_MEMORY_HOTREMOVE
+__attribute__((optimize("O0")))
 static unsigned long * __init
 sparse_early_usemaps_alloc_pgdat_section(struct pglist_data *pgdat,
 					 unsigned long size)
@@ -291,6 +296,7 @@ again:
 	return p;
 }
 
+__attribute__((optimize("O0")))
 static void __init check_usemap_section_nr(int nid, unsigned long *usemap)
 {
 	unsigned long usemap_snr, pgdat_snr;
@@ -327,6 +333,7 @@ static void __init check_usemap_section_nr(int nid, unsigned long *usemap)
 		usemap_snr, pgdat_snr, nid);
 }
 #else
+__attribute__((optimize("O0")))
 static unsigned long * __init
 sparse_early_usemaps_alloc_pgdat_section(struct pglist_data *pgdat,
 					 unsigned long size)
@@ -339,6 +346,7 @@ static void __init check_usemap_section_nr(int nid, unsigned long *usemap)
 }
 #endif /* CONFIG_MEMORY_HOTREMOVE */
 
+__attribute__((optimize("O0")))
 static void __init sparse_early_usemaps_alloc_node(void *data,
 				 unsigned long pnum_begin,
 				 unsigned long pnum_end,
@@ -366,6 +374,7 @@ static void __init sparse_early_usemaps_alloc_node(void *data,
 }
 
 #ifndef CONFIG_SPARSEMEM_VMEMMAP
+__attribute__((optimize("O0")))
 struct page __init *sparse_mem_map_populate(unsigned long pnum, int nid)
 {
 	struct page *map;
@@ -381,6 +390,8 @@ struct page __init *sparse_mem_map_populate(unsigned long pnum, int nid)
 					  BOOTMEM_ALLOC_ACCESSIBLE, nid);
 	return map;
 }
+
+__attribute__((optimize("O0")))
 void __init sparse_mem_maps_populate_node(struct page **map_map,
 					  unsigned long pnum_begin,
 					  unsigned long pnum_end,
@@ -433,6 +444,7 @@ void __init sparse_mem_maps_populate_node(struct page **map_map,
 #endif /* !CONFIG_SPARSEMEM_VMEMMAP */
 
 #ifdef CONFIG_SPARSEMEM_ALLOC_MEM_MAP_TOGETHER
+__attribute__((optimize("O0")))
 static void __init sparse_early_mem_maps_alloc_node(void *data,
 				 unsigned long pnum_begin,
 				 unsigned long pnum_end,
@@ -443,6 +455,7 @@ static void __init sparse_early_mem_maps_alloc_node(void *data,
 					 map_count, nodeid);
 }
 #else
+__attribute__((optimize("O0")))
 static struct page __init *sparse_early_mem_map_alloc(unsigned long pnum)
 {
 	struct page *map;
@@ -468,6 +481,7 @@ void __weak __meminit vmemmap_populate_print_last(void)
  *  alloc_usemap_and_memmap - memory alloction for pageblock flags and vmemmap
  *  @map: usemap_map for pageblock flags or mmap_map for vmemmap
  */
+__attribute__((optimize("O0")))
 static void __init alloc_usemap_and_memmap(void (*alloc_func)
 					(void *, unsigned long, unsigned long,
 					unsigned long, int), void *data)
@@ -517,6 +531,7 @@ static void __init alloc_usemap_and_memmap(void (*alloc_func)
  * Allocate the accumulated non-linear sections, allocate a mem_map
  * for each and record the physical to section mapping.
  */
+__attribute__((optimize("O0")))
 void __init sparse_init(void)
 {
 	unsigned long pnum;
@@ -530,7 +545,9 @@ void __init sparse_init(void)
 #endif
 
 	/* see include/linux/mmzone.h 'struct mem_section' definition */
+	/* IAMROOT23 20261024 build error 주석처리
 	BUILD_BUG_ON(!is_power_of_2(sizeof(struct mem_section)));
+	 */
 
 	/* Setup pageblock_order for HUGETLB_PAGE_SIZE_VARIABLE */
 	set_pageblock_order();
