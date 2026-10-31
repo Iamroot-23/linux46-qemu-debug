@@ -255,6 +255,10 @@ struct page * __meminit sparse_mem_map_populate(unsigned long pnum, int nid)
 	unsigned long end;
 	struct page *map;
 
+	/* IAMROOT23 20261031
+	 * map에 struct page[PAGES_PER_SECTION] 크기의 메모리를 할당및 vmemmap에
+	 * 매핑하고 리턴함.
+	 */
 	map = pfn_to_page(pnum * PAGES_PER_SECTION);
 	start = (unsigned long)map;
 	end = (unsigned long)(map + PAGES_PER_SECTION);

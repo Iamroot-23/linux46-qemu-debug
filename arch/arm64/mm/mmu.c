@@ -666,10 +666,16 @@ int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node)
 		if (pmd_none(*pmd)) {
 			void *p = NULL;
 
+			/* IAMROOT23 20261031
+			 * struct page[sizeof(page)/PMD_SIZE]를 할당
+			 */
 			p = vmemmap_alloc_block_buf(PMD_SIZE, node);
 			if (!p)
 				return -ENOMEM;
 
+			/* IAMROOT23 20261031
+			 * 할당한 struct page[]을 vmemmap 영역에 매핑함.
+			 */
 			set_pmd(pmd, __pmd(__pa(p) | PROT_SECT_NORMAL));
 		} else
 			vmemmap_verify((pte_t *)pmd, node, addr, next);

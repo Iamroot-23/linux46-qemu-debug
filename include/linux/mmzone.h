@@ -23,6 +23,9 @@
 #ifndef CONFIG_FORCE_MAX_ZONEORDER
 #define MAX_ORDER 11
 #else
+/* IAMROOT23 20261031
+ * MAX_ORDER	11
+ */
 #define MAX_ORDER CONFIG_FORCE_MAX_ZONEORDER
 #endif
 #define MAX_ORDER_NR_PAGES (1 << (MAX_ORDER - 1))
@@ -1022,6 +1025,7 @@ static inline unsigned long early_pfn_to_nid(unsigned long pfn)
 #define PFN_SECTION_SHIFT	(SECTION_SIZE_BITS - PAGE_SHIFT)
 
 /* IAMROOT23 20260919
+ * 전체 섹션의 최대 개수
  * NR_MEM_SECTIONS	256k(0x4_0000)	1 << 18
  *	48비트 물리주소를 채우려면 1G섹션이 총 256k개 필요함.
  */
@@ -1034,6 +1038,10 @@ static inline unsigned long early_pfn_to_nid(unsigned long pfn)
 #define PAGES_PER_SECTION       (1UL << PFN_SECTION_SHIFT)
 #define PAGE_SECTION_MASK	(~(PAGES_PER_SECTION-1))
 
+/* IAMROOT23 20261031
+ * 1섹션당 pageblock flag bit 개수.
+ * SECTION_BLOCKFLAGS_BITS	2048	(1 << (18 - 9)) * 4
+ */
 #define SECTION_BLOCKFLAGS_BITS \
 	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
 

@@ -5390,9 +5390,9 @@ void __paginginit set_pageblock_order(void)
 		return;
 
 	if (HPAGE_SHIFT > PAGE_SHIFT)
-		order = HUGETLB_PAGE_ORDER;
+		order = HUGETLB_PAGE_ORDER;/* IAMROOT23 20261031: order = 9 */
 	else
-		order = MAX_ORDER - 1;
+		order = MAX_ORDER - 1;/* IAMROOT23 20261031: order = 10*/
 
 	/*
 	 * Assume the largest contiguous order of interest is a huge page.
