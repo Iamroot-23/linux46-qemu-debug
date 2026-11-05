@@ -318,6 +318,7 @@ EXPORT_SYMBOL(__dec_zone_page_state);
  *     1       Overstepping half of threshold
  *     -1      Overstepping minus half of threshold
 */
+__attribute__((optimize("O0")))
 static inline void mod_state(struct zone *zone, enum zone_stat_item item,
 			     long delta, int overstep_mode)
 {

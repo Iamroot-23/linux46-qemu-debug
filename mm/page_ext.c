@@ -362,6 +362,7 @@ static int __meminit page_ext_callback(struct notifier_block *self,
 
 #endif
 
+__attribute__((optimize("O0")))
 void __init page_ext_init(void)
 {
 	unsigned long pfn;
