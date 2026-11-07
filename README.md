@@ -21,15 +21,15 @@
 ## 필요한 패키지
  - Google에서 "aarch64 크로스 컴파일 환경 구성하기" 를 찿아 설치하자
  - arch 리눅스에서는 아래의 패키지를 설치했다.
-  - aarch64-linux-gnu-binutils
-  - aarch64-linux-gnu-gcc
-  - aarch64-linux-gnu-gdb
-  - aarch64-linux-gnu-glibc
-  - qemu-system-aarch64
-  - bc cscope ctags
+```sh
+ sudo pacman -S aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc aarch64-linux-gnu-gdb
+ sudo pacman -S aarch64-linux-gnu-glibc qemu-system-aarch64 bc cscope ctags
+```
  - Ubuntu 24.04 LTS 
-  - bc cscope universal-ctags qemu-system-arm build-essential crossbuild-essential-arm64
-  - gcc-aarch64-linux-gnu gdb-multiarch
+```sh
+  sudo apt install bc cscope universal-ctags qemu-system-arm build-essential crossbuild-essential-arm64
+  sudo apt install gcc-aarch64-linux-gnu gdb-multiarch
+```
 
 ## 실행 순서
  - cp vimrc ~/.vimrc        # 필요시 ~/.vimrc 백업
@@ -40,32 +40,39 @@
  - k-g3.sh start_kernel 이후 디버깅이 필요하면 실행해준다.
 
 ## vim 사용법
- - :ts 함수명 혹은 변수명
- - :ts 시작명+tab+tab   자동 완성기능
- - 선언으로 이동1 : ctrl + ] : 변수 함수명 위에서 ctrl + ]
- - 이전으로 이동 : ctrl + t
- - 선언으로 이동2 : 변수 함수명 위에서 ,css
+ - 항상 커널 소스 최상단에서 vim 실행
+```vim
+ :ts 함수명 혹은 변수명
+ :ts 시작명+tab+tab   " 자동 완성기능
+ ctrl + ] " 선언으로 이동1 : 변수 함수명 위에서 ctrl + ]
+ ctrl + t " 이전으로 이동
+ ,css     " 선언으로 이동2 : 변수 함수명 위에서 ,css
+ ```
 
 ## gdb 사용법
  - ./k-g3.sh 디버거 실행
- - b 함수명  # brakpoint tab키 두번 누르면 자동완성됨
- - c             # continue
- - p 변수명       # print tab키 두번 두느면 자동완성됨
- - n             # next
- - s             # step
- - quit          # 종료
+ ```gdb
+  b 함수명  # brakpoint tab키 두번 누르면 자동완성됨
+  c             # continue
+  p 변수명       # print tab키 두번 두느면 자동완성됨
+  n             # next
+  s             # step
+  quit          # 종료
+```
 
 ## python 변수 보는 방법
  - 헥사코드 보는 방법
- - hex(1234567890)
+```python
+ hex(1234567890)
  '0x499602d2'
+```
  - 헥사코드 이쁘게 보는 방법
 ```python
  def h(n):
    return f'{n:#_x}'
 
-   >>> h(1234567890)
-   '0x4996_02d2'
+ >>> h(1234567890)
+ '0x4996_02d2'
 ```
  
 ## History
