@@ -253,6 +253,11 @@ static int __meminit sparse_init_one_section(struct mem_section *ms,
 	return 1;
 }
 
+/* IAMROOT23 20261105
+ * 1 mem_section 당 필요한 usemap size를 구함.
+ * 1 page block 당 4bit가 필요하고 1mem_section 은 512 apge block이므로
+ * 512 * 4 = 2048 bits = 2048 / 8 bytes = 256 bytes size
+ */
 __attribute__((optimize("O0")))
 unsigned long usemap_size(void)
 {
