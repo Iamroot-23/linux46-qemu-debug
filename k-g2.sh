@@ -58,7 +58,11 @@ QEMU_PID=$!
 sleep 3
 
 echo gdb start...
-aarch64-linux-gnu-gdb -ex "layout asm" \
+GDB_BIN=aarch64-linux-gnu-gdb
+if [ -f /usr/bin/gdb-multiarch ]; then
+	GDB_BIN=gdb-multiarch
+fi
+${GDB_BIN} -ex "layout asm" \
 	-ex "layout reg" \
 	-ex "target remote localhost:1234" \
 	-ex "add-symbol-file ${OUT_DIR}/vmlinux \

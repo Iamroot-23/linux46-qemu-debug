@@ -33,7 +33,7 @@ set cc=80	" 80라인 컬럼 표시
 " set dy+=lastline
 " set formatoptions+=r    " 주석 자동 처리
 " setlocal comments-=://  " // 자동 주석 제거
-" colorscheme ron
+colorscheme ron
 "============= vim 창 크기 조절 ============
 "nmap <s-h> <C-W><
 "nmap <s-j> <C-W>-

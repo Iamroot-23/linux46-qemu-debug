@@ -7,8 +7,13 @@ BUILD_LOG="${PWD}/kbuild_log.txt"
 
 cd ${PWD}
 
-echo "make defconfig"
-make oldconfig
+if [ -f .config ]; then
+	echo "make oldconfig"
+	make oldconfig
+else
+	echo "make defconfig"
+	make defconfig
+fi
 
 echo "kernel build"
 make -j$(( $(nproc) - 4 )) 2>&1 | tee $BUILD_LOG

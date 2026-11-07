@@ -46,6 +46,7 @@ int __get_order(unsigned long size)
  * This function may be used to initialise variables with compile time
  * evaluations of constants.
  */
+/* IAMROOT23 20261107 커널 빌드 수정.
 #define get_order(n)						\
 (								\
 	__builtin_constant_p(n) ? (				\
@@ -53,6 +54,11 @@ int __get_order(unsigned long size)
 		(((n) < (1UL << PAGE_SHIFT)) ? 0 :		\
 		 ilog2((n) - 1) - PAGE_SHIFT + 1)		\
 	) :							\
+	__get_order(n)						\
+)
+*/
+#define get_order(n)						\
+(								\
 	__get_order(n)						\
 )
 
