@@ -357,6 +357,7 @@ static inline void mod_state(struct zone *zone, enum zone_stat_item item,
 		zone_page_state_add(z, zone, item);
 }
 
+__attribute__((optimize("O0")))
 void mod_zone_page_state(struct zone *zone, enum zone_stat_item item,
 			 long delta)
 {
@@ -364,17 +365,20 @@ void mod_zone_page_state(struct zone *zone, enum zone_stat_item item,
 }
 EXPORT_SYMBOL(mod_zone_page_state);
 
+__attribute__((optimize("O0")))
 void inc_zone_state(struct zone *zone, enum zone_stat_item item)
 {
 	mod_state(zone, item, 1, 1);
 }
 
+__attribute__((optimize("O0")))
 void inc_zone_page_state(struct page *page, enum zone_stat_item item)
 {
 	mod_state(page_zone(page), item, 1, 1);
 }
 EXPORT_SYMBOL(inc_zone_page_state);
 
+__attribute__((optimize("O0")))
 void dec_zone_page_state(struct page *page, enum zone_stat_item item)
 {
 	mod_state(page_zone(page), item, -1, -1);
