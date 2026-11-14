@@ -33,7 +33,7 @@ set cc=80	" 80라인 컬럼 표시
 " set dy+=lastline
 " set formatoptions+=r    " 주석 자동 처리
 " setlocal comments-=://  " // 자동 주석 제거
-colorscheme ron
+colorscheme desert
 "============= vim 창 크기 조절 ============
 "nmap <s-h> <C-W><
 "nmap <s-j> <C-W>-
@@ -177,7 +177,7 @@ nmap <F2> <ESC>:set nu! <cr>
 
 nmap <F8> <ESC>O/* IAMROOT23 <C-R>=strftime("%Y%m%d")<CR><CR><SPACE>*<SPACE><CR>*/<ESC><UP><END>a
 nmap <F9> <ESC>a/* IAMROOT23 <C-R>=strftime("%Y%m%d")<CR><SPACE>*/<LEFT><ESC>
-nmap <F12> <ESC>i__attribute__((optimize("O0")))<CR><ESC>
+nmap <F12> <ESC>O__attribute__((optimize("O0")))<ESC>
 vmap <F3> :s/[ \t]\+$//
 
 
