@@ -44,7 +44,7 @@ qemu-system-aarch64 \
     -machine type=virt \
     -nographic \
     -smp 4 \
-    -m 4096 \
+    -m 4g \
 	-kernel ${OUT_DIR}/arch/arm64/boot/Image \
     --append "console=ttyAMA0 nokaslr" \
     -s &

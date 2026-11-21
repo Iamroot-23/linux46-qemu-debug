@@ -949,6 +949,7 @@ out:
 	return ret;
 }
 
+__attribute__((optimize("O0")))
 static void __meminit __init_single_page(struct page *page, unsigned long pfn,
 				unsigned long zone, int nid)
 {
@@ -4592,6 +4593,7 @@ void __ref build_all_zonelists(pg_data_t *pgdat, struct zone *zone)
 #define PAGES_PER_WAITQUEUE	256
 
 #ifndef CONFIG_MEMORY_HOTPLUG
+__attribute__((optimize("O0")))
 static inline unsigned long wait_table_hash_nr_entries(unsigned long pages)
 {
 	unsigned long size = 1;
@@ -4649,6 +4651,7 @@ static inline unsigned long wait_table_bits(unsigned long size)
  * up by free_all_bootmem() once the early boot process is
  * done. Non-atomic initialization, single-pass.
  */
+__attribute__((optimize("O0")))
 void __meminit memmap_init_zone(unsigned long size, int nid, unsigned long zone,
 		unsigned long start_pfn, enum memmap_context context)
 {
@@ -4910,6 +4913,7 @@ void __init setup_per_cpu_pageset(void)
 		setup_zone_pageset(zone);
 }
 
+__attribute__((optimize("O0")))
 static noinline __init_refok
 int zone_wait_table_init(struct zone *zone, unsigned long zone_size_pages)
 {
@@ -4969,6 +4973,7 @@ static __meminit void zone_pcp_init(struct zone *zone)
 					 zone_batchsize(zone));
 }
 
+__attribute__((optimize("O0")))
 int __meminit init_currently_empty_zone(struct zone *zone,
 					unsigned long zone_start_pfn,
 					unsigned long size)

@@ -904,30 +904,35 @@ static inline struct zone *page_zone(const struct page *page)
 }
 
 #ifdef SECTION_IN_PAGE_FLAGS
+__attribute__((optimize("O0")))
 static inline void set_page_section(struct page *page, unsigned long section)
 {
 	page->flags &= ~(SECTIONS_MASK << SECTIONS_PGSHIFT);
 	page->flags |= (section & SECTIONS_MASK) << SECTIONS_PGSHIFT;
 }
 
+__attribute__((optimize("O0")))
 static inline unsigned long page_to_section(const struct page *page)
 {
 	return (page->flags >> SECTIONS_PGSHIFT) & SECTIONS_MASK;
 }
 #endif
 
+__attribute__((optimize("O0")))
 static inline void set_page_zone(struct page *page, enum zone_type zone)
 {
 	page->flags &= ~(ZONES_MASK << ZONES_PGSHIFT);
 	page->flags |= (zone & ZONES_MASK) << ZONES_PGSHIFT;
 }
 
+__attribute__((optimize("O0")))
 static inline void set_page_node(struct page *page, unsigned long node)
 {
 	page->flags &= ~(NODES_MASK << NODES_PGSHIFT);
 	page->flags |= (node & NODES_MASK) << NODES_PGSHIFT;
 }
 
+__attribute__((optimize("O0")))
 static inline void set_page_links(struct page *page, enum zone_type zone,
 	unsigned long node, unsigned long pfn)
 {

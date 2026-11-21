@@ -398,6 +398,7 @@ static struct page_address_slot {
 	spinlock_t lock;			/* Protect this bucket's list */
 } ____cacheline_aligned_in_smp page_address_htable[1<<PA_HASH_ORDER];
 
+__attribute__((optimize("O0")))
 static struct page_address_slot *page_slot(const struct page *page)
 {
 	return &page_address_htable[hash_ptr(page, PA_HASH_ORDER)];
@@ -409,6 +410,7 @@ static struct page_address_slot *page_slot(const struct page *page)
  *
  * Returns the page's virtual address.
  */
+__attribute__((optimize("O0")))
 void *page_address(const struct page *page)
 {
 	unsigned long flags;
@@ -443,6 +445,7 @@ EXPORT_SYMBOL(page_address);
  * @page: &struct page to set
  * @virtual: virtual address to use
  */
+__attribute__((optimize("O0")))
 void set_page_address(struct page *page, void *virtual)
 {
 	unsigned long flags;
